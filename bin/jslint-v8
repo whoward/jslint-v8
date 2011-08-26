@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require File.expand_path("../lib/jslint-v8", File.dirname(__FILE__))
+
+if ARGV.empty?
+  puts "usage: #{File.basename(__FILE__)} FILES"
+  exit 1
+end
+
+formatter = JSLintV8::Formatter.new(STDOUT)
+
+# get a list of all failed files, printing . or * along the way depending on the result
+lint_result = JSLintV8::Runner.new(ARGV).run do |file, errors|
+  formatter.tick(errors)
+end
+
+# put a separator line in between the ticks and any summary
+print "\n"
+
+# print a summary of failed files
+formatter.summary(ARGV, lint_result)
+
+# exit with the status code of the number of errors
+exit(lint_result.values.flatten.length)
