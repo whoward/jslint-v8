@@ -34,8 +34,9 @@ class TestCli < Test::Unit::TestCase
     defined_options = js_filename("defined-options")
     invalid = js_filename("invalid")
     valid = js_filename("valid")
+    forloop = js_filename("forloop")
 
-    result = %x{#{Executable} "#{defined_globals}" "#{defined_options}" "#{invalid}" "#{valid}"}
+    result = %x{#{Executable} "#{defined_globals}" "#{defined_options}" "#{forloop}" "#{invalid}" "#{valid}" }
 
     assert_equal false, $?.success?
     assert_equal erb_fixture("cli-suite-expected-output"), result

@@ -53,11 +53,11 @@ module JSLintV8
       end
 
       def jslint_function
-         runtime["JSLINT"];
+         runtime["JSHINT"];
       end
 
       def jslint_result
-         runtime["JSLINT"]["errors"].to_a.compact.map do |error_object|
+         runtime["JSHINT"]["errors"].to_a.compact.map do |error_object|
             JSLintV8::LintError.new(error_object)
          end
       end

@@ -138,4 +138,5 @@ class TestRunner < Test::Unit::TestCase
 
     assert_equal result.keys.length, 1
   end
+
 end
