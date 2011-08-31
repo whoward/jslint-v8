@@ -3,7 +3,7 @@ module JSLintV8
   module Version
      MAJOR = 1
      MINOR = 0
-     PATCH = 0
+     PATCH = 1
      BUILD = nil
     
      STRING = [MAJOR, MINOR, PATCH, BUILD].compact.join('.')
