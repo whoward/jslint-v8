@@ -12,7 +12,7 @@ class TestCli < Test::Unit::TestCase
     # capture standard error by redirecting it to standard out
     result = `#{Executable} 2>&1`
 
-    assert_equal erb_fixture("usage-output"), result
+    assert_match /^Usage/, result
     assert_equal 255, $?.exitstatus
   end
 
@@ -28,7 +28,7 @@ class TestCli < Test::Unit::TestCase
     # capture standard error by redirecting it to standard out
     result = `#{Executable} -h foo.js bar.js baz.js 2>&1`
 
-    assert_equal erb_fixture("usage-output"), result
+    assert_match /^Usage/, result
     assert_equal 255, $?.exitstatus
   end
 
@@ -36,7 +36,7 @@ class TestCli < Test::Unit::TestCase
     # capture standard error by redirecting it to standard out
     result = `#{Executable} --browser --jquery 2>&1`
 
-    assert_equal erb_fixture("usage-output"), result
+    assert_match /^Usage/, result
     assert_equal 255, $?.exitstatus
   end
 
