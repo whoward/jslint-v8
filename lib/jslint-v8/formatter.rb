@@ -27,7 +27,11 @@ module JSLintV8
 
          out.print "\nFailures:\n\n"
 
-         result.each do |file, errors|
+         # we iterate the sorted keys to prevent a brittle test and also the output
+         # should be nicer as it will be guaranteed to be alphabetized
+         result.keys.sort.each do |file|
+            errors = result[file]
+
             out.print "#{file}:\n"
             errors.each do |error|
                out.print "   line #{error.line_number} character #{error.character} #{error.reason}\n"
