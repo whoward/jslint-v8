@@ -52,23 +52,38 @@ class TestTask < Test::Unit::TestCase
     assert_equal STDOUT, task.output_stream
   end
 
+  def test_default_lint_options
+    task = JSLintV8::RakeTask.new
+
+    assert_equal({}, task.lint_options)
+  end
+
   def test_creation_block
     tempfile = Tempfile.new("foo")
 
     task = JSLintV8::RakeTask.new do |task|
       task.name = "foo"
+      
       task.description = "Points out the bad codezzzz"
+      
       task.include_pattern = "js/**/*.js"
       task.exclude_pattern = "js/**/*.txt"
+
       task.output_stream = tempfile
+
+      task.browser = true
+      task.strict = true
     end
 
     rake_task = Rake.application.lookup("foo")
+
+    expected_options = {"browser" => true, "strict" => true}
 
     assert_equal "foo", rake_task.name
     assert_equal "Points out the bad codezzzz", rake_task.comment
     assert_equal "js/**/*.js", task.include_pattern
     assert_equal "js/**/*.txt", task.exclude_pattern
+    assert_equal expected_options, task.lint_options
     assert_equal tempfile.object_id, task.output_stream.object_id
   end
 
@@ -81,6 +96,19 @@ class TestTask < Test::Unit::TestCase
     expected_files = Dir.glob(File.expand_path("fixtures/*.js", File.dirname(__FILE__))).sort
 
     assert_equal expected_files, task.files_to_run
+  end
+
+  def test_custom_lint_options
+    task = JSLintV8::RakeTask.new do |task|
+      task.browser = true
+      task.evil = true
+    end
+
+    runner = task.send(:runner)
+
+    assert_equal true,  runner.jslint_options["browser"]
+    assert_equal true,  runner.jslint_options["evil"]
+    assert_equal false, runner.jslint_options["rhino"]
   end
 
   def test_valid_output

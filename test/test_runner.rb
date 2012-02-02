@@ -43,6 +43,17 @@ class TestRunner < Test::Unit::TestCase
     assert_equal @runner.runtime.object_id, first.object_id
   end
 
+  def test_overrideable_options
+    # have same values as default options
+    assert_equal @runner.jslint_options, JSLintV8::Runner::DefaultOptions
+
+    # but not be the options
+    assert_not_equal @runner.jslint_options.object_id, JSLintV8::Runner::DefaultOptions.object_id
+
+    # but be memoized
+    assert_equal @runner.jslint_options.object_id, @runner.jslint_options.object_id
+  end
+
   def test_jslint_function_proxy
     assert_not_nil @runner.jslint_function
   end

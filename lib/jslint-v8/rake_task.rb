@@ -18,6 +18,15 @@ module JSLintV8
     # output stream for this task
     attr_accessor :output_stream
 
+    # custom lint options for the task
+    attr_accessor :lint_options
+
+    # metaprogrammatically define accessors for each lint option expected
+    Runner::DefaultOptions.keys.each do |key|
+      define_method(key)       { lint_options[key] }
+      define_method("#{key}=") {|value| lint_options[key] = value }
+    end
+
     def initialize
       # a default name
       @name = "lint"
@@ -33,6 +42,9 @@ module JSLintV8
 
       # by default use standard output for writing information
       @output_stream = STDOUT
+
+      # by default provide no overridden lint options
+      @lint_options = {}
 
       # if a block was given allow the block to call elements on this object
       yield self if block_given?
@@ -72,7 +84,9 @@ module JSLintV8
   private
     
     def runner
-      JSLintV8::Runner.new(files_to_run)
+      runner = JSLintV8::Runner.new(files_to_run)
+      runner.jslint_options.merge!(lint_options)
+      runner
     end
 
   end
