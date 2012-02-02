@@ -2,15 +2,39 @@
 require 'rubygems'
 require File.expand_path("../lib/jslint-v8", File.dirname(__FILE__))
 
-if ARGV.empty?
-  puts "usage: #{File.basename(__FILE__)} FILES"
-  exit 1
+def print_usage
+   STDERR.puts JSLintV8::OptionParser.new.help
+   exit(255)
 end
 
+# if no parameters are passed then print usage and exit
+print_usage if ARGV.empty?
+
+# parse the options out of the command line
+begin
+   parser = JSLintV8::OptionParser.new
+   parser.parse!
+rescue SystemExit => e
+   # exit with a failing status code, happens with the -h and -v options
+   exit(255)
+rescue Exception => e
+   # print out an error message and exit with a failing exit code
+   STDERR.puts "#{$0}: #{e.message} (#{e.class.to_s})"
+   exit(255)
+end
+
+# if no parameters are left (nothing beyond options given) then print usage and exit
+print_usage if ARGV.empty?
+
+# set up a formatter for standard output
 formatter = JSLintV8::Formatter.new(STDOUT)
 
+# set up a runner
+runner = JSLintV8::Runner.new(ARGV)
+runner.jslint_options.merge!(parser.options[:lint_options])
+
 # get a list of all failed files, printing . or * along the way depending on the result
-lint_result = JSLintV8::Runner.new(ARGV).run do |file, errors|
+lint_result = runner.run do |file, errors|
   formatter.tick(errors)
 end
 

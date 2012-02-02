@@ -9,10 +9,35 @@ class TestCli < Test::Unit::TestCase
   end
 
   def test_empty_args
-    result = `#{Executable}`
+    # capture standard error by redirecting it to standard out
+    result = `#{Executable} 2>&1`
 
-    assert_equal "usage: jslint-v8 FILES\n", result
-    assert_equal false, $?.success?
+    assert_equal erb_fixture("usage-output"), result
+    assert_equal 255, $?.exitstatus
+  end
+
+  def test_version_output
+    # capture standard error by redirecting it to standard out
+    result = `#{Executable} -v 2>&1`
+
+    assert_equal erb_fixture("version-output"), result
+    assert_equal 255, $?.exitstatus
+  end
+
+  def test_help_output
+    # capture standard error by redirecting it to standard out
+    result = `#{Executable} -h foo.js bar.js baz.js 2>&1`
+
+    assert_equal erb_fixture("usage-output"), result
+    assert_equal 255, $?.exitstatus
+  end
+
+  def test_only_options_given
+    # capture standard error by redirecting it to standard out
+    result = `#{Executable} --browser --jquery 2>&1`
+
+    assert_equal erb_fixture("usage-output"), result
+    assert_equal 255, $?.exitstatus
   end
 
   def test_valid
