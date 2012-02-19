@@ -70,3 +70,8 @@ The code above:
 Whatever works, but my preference is for you to fork this repository on github
 and write your changes on a separate branch.  When finished you can send them
 to me by issuing a pull request.
+
+# Feature Requests / Suggestions
+
+You can open up an Issue here on Github or if you'd prefer send me a message 
+here on Github, please try and give me a good use case for your feature request / suggestion.
