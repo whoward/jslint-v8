@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.summary = %q{JSLint CLI and rake tasks via therubyracer (JavaScript V8 gem)}
   s.description = "Ruby gem wrapper for a jslint cli.  Uses the The Ruby Racer library for performance reasons targeted for usage in CI environments and backed up with a full test suite."
 
-  s.files = Dir.glob("lib/**/*.rb") + Dir.glob("lib/**/*.js") + %w(Gemfile Gemfile.lock bin/jslint-v8)
+  s.files = Dir.glob("lib/**/*.rb") + Dir.glob("lib/**/*.js") + %w(Gemfile bin/jslint-v8)
   s.test_files = Dir.glob("test/**/*.rb")
 
   s.add_dependency "therubyracer", "~> 0.12.0"
