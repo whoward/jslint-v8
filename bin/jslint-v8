@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
-require 'rubygems'
-require File.expand_path("../lib/jslint-v8", File.dirname(__FILE__))
+$LOAD_PATH.unshift File.expand_path("../lib", File.dirname(__FILE__))
+
+require "jslint-v8"
 
 def print_usage
    STDERR.puts JSLintV8::OptionParser.new.help
