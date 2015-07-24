@@ -1,4 +1,3 @@
-require 'json'
 
 module JSLintV8
    class Formatter
@@ -13,32 +12,13 @@ module JSLintV8
          output_stream.flush
       end
 
-      def json_summary(lint_result)
+      def summary(tested_files, lint_result)
          if lint_result.keys.any?
-            output = lint_result.map do |file_errors|
-               { file_errors[0] =>
-                    file_errors[1].map do |errors|
-                       { "line" => errors.line_number,
-                         "column" => errors.character,
-                         "reason" => errors.reason
-                       }
-                    end
-               }
-            end
+            print_error_summary(lint_result)
+            output_stream.print "\n"
          end
-         output[0]
-      end
 
-      def summary(tested_files, lint_result, json_format=false)
-         if lint_result.keys.any?
-            if json_format
-               output_stream.print json_summary(lint_result).to_json
-            else
-               print_error_summary(lint_result)
-               output_stream.print "\n"
-               print_count_summary(tested_files, lint_result)
-            end
-         end
+         print_count_summary(tested_files, lint_result)
       end
 
    private

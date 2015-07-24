@@ -28,7 +28,11 @@ end
 print_usage if ARGV.empty?
 
 # set up a formatter for standard output
-formatter = JSLintV8::Formatter.new(STDOUT)
+if (!parser.options[:json])
+  formatter = JSLintV8::Formatter.new(STDOUT)
+else
+  formatter = JSLintV8::Json.new(STDOUT)
+end
 
 # set up a runner
 runner = JSLintV8::Runner.new(ARGV)
@@ -36,20 +40,14 @@ runner.jslint_options.merge!(parser.options[:lint_options])
 
 # get a list of all failed files, printing . or * along the way depending on the result
 lint_result = runner.run do |file, errors|
-  if (!parser.options[:json])
-    formatter.tick(errors)
-  end
+  formatter.tick(errors)
 end
 
 # put a separator line in between the ticks and any summary
 print "\n"
 
 # print a summary of failed files
-if parser.options[:json]
-  formatter.summary(ARGV, lint_result, true)
-else
-  formatter.summary(ARGV, lint_result)
-end
+formatter.summary(ARGV, lint_result)
 
 # exit with the status code of the number of errors
 exit(lint_result.values.flatten.length)
