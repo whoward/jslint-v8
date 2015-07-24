@@ -36,14 +36,20 @@ runner.jslint_options.merge!(parser.options[:lint_options])
 
 # get a list of all failed files, printing . or * along the way depending on the result
 lint_result = runner.run do |file, errors|
-  formatter.tick(errors)
+  if (!parser.options[:json])
+    formatter.tick(errors)
+  end
 end
 
 # put a separator line in between the ticks and any summary
 print "\n"
 
 # print a summary of failed files
-formatter.summary(ARGV, lint_result)
+if parser.options[:json]
+  formatter.summary(ARGV, lint_result, true)
+else
+  formatter.summary(ARGV, lint_result)
+end
 
 # exit with the status code of the number of errors
 exit(lint_result.values.flatten.length)

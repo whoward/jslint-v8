@@ -25,6 +25,10 @@ module JSLintV8
             end
          end
 
+         on("--json", "Return output in JSON format") do |j|
+            options[:json] = j
+         end
+
          on("-h", "--help", "Show this message") do
             STDERR.puts self.help
             exit(-1)
