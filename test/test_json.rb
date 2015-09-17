@@ -23,7 +23,7 @@ class TestJsonFormatter < Test::Unit::TestCase
 
     @formatter.summary(%w(foo bar baz one two three), result)
 
-    assert_equal json_fixture("json-formatter-summary-errors"), @output
+    assert_equal json_fixture("json-formatter-summary-errors").strip, @output
   end
 
   def test_summary_with_no_errors

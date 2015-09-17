@@ -27,7 +27,7 @@ class TestTask < Test::Unit::TestCase
   end
 
   def test_default_description
-    JSLintV8::RakeTask.new 
+    JSLintV8::RakeTask.new
 
     task = Rake.application.lookup("lint")
 
@@ -35,7 +35,7 @@ class TestTask < Test::Unit::TestCase
   end
 
   def test_default_include_pattern
-    task = JSLintV8::RakeTask.new 
+    task = JSLintV8::RakeTask.new
 
     assert_equal "app/javascripts/**/*.js", task.include_pattern
   end
@@ -63,9 +63,9 @@ class TestTask < Test::Unit::TestCase
 
     task = JSLintV8::RakeTask.new do |task|
       task.name = "foo"
-      
+
       task.description = "Points out the bad codezzzz"
-      
+
       task.include_pattern = "js/**/*.js"
       task.exclude_pattern = "js/**/*.txt"
 
@@ -93,7 +93,7 @@ class TestTask < Test::Unit::TestCase
       task.exclude_pattern = File.expand_path("fixtures/*.erb", File.dirname(__FILE__))
     end
 
-    expected_files = Dir.glob(File.expand_path("fixtures/*.js", File.dirname(__FILE__))).sort
+    expected_files = Dir.glob(File.expand_path("fixtures/*.{js,json}", File.dirname(__FILE__))).sort
 
     assert_equal expected_files, task.files_to_run
   end
