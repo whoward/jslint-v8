@@ -28,7 +28,11 @@ end
 print_usage if ARGV.empty?
 
 # set up a formatter for standard output
-formatter = JSLintV8::Formatter.new(STDOUT)
+if (!parser.options[:json])
+  formatter = JSLintV8::Formatter.new(STDOUT)
+else
+  formatter = JSLintV8::Json.new(STDOUT)
+end
 
 # set up a runner
 runner = JSLintV8::Runner.new(ARGV)

@@ -1,0 +1,1 @@
+[{"foo":[{"line":42,"column":10,"reason":"because i can","evidence":null},{"line":43,"column":3,"reason":"a proof is not a proof","evidence":null}]},{"bar":[{"line":139,"column":12,"reason":"undefined global 'foo'","evidence":null}]}]
