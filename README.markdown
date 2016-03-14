@@ -75,3 +75,7 @@ to me by issuing a pull request.
 
 You can open up an Issue here on Github or if you'd prefer send me a message 
 here on Github, please try and give me a good use case for your feature request / suggestion.
+
+# License
+
+jslint-v8 is released under the MIT license
